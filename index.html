@@ -7,59 +7,59 @@
 <style>
 /* Layout: a single phone-width column, big rounded cards, black pill nav floating at the bottom. */
 :root {
-  --bg: #e4e5e7;
-  --card: #f3f3f4;
-  --card2: #ffffff;
-  --ink: #0b0b0c;
-  --muted: #666870;
-  --line: rgba(11, 11, 12, .09);
-  --yellow: #f1f30b;
-  --yellow-ink: #0b0b0c;
-  --yellow-edge: #0b0b0c;
-  --hero: #0e0e0f;
+  --bg: #f3f6f8;
+  --card: #ffffff;
+  --card2: #f8fafb;
+  --ink: #17252b;
+  --muted: #6b7b82;
+  --line: rgba(23, 37, 43, .10);
+  --yellow: #20b7a5;
+  --yellow-ink: #062e2a;
+  --yellow-edge: transparent;
+  --hero: #102b32;
   --hero-ink: #ffffff;
   --hero-mut: rgba(255, 255, 255, .62);
-  --nav: #0c0c0d;
+  --nav: #102b32;
   --nav-ink: #ffffff;
-  --seg-on: #0c0c0d;
+  --seg-on: #102b32;
   --seg-on-ink: #ffffff;
-  --track: #d9dadd;
+  --track: #dce7e9;
   --bad: #b3261e;
   --ok: #1b7f3b;
   --font: 'Vazirmatn', Tahoma, 'Segoe UI', system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0a0a0b;
-    --card: #161617;
-    --card2: #202022;
-    --ink: #f3f3f0;
-    --muted: #9b9da3;
-    --line: rgba(255, 255, 255, .1);
+    --bg: #0b171a;
+    --card: #122327;
+    --card2: #192c30;
+    --ink: #edf7f6;
+    --muted: #9db2b5;
+    --line: rgba(207, 239, 235, .12);
     --yellow-edge: transparent;
-    --hero: #252528;
-    --nav: #2b2b2f;
-    --seg-on: #f1f30b;
+    --hero: #15383d;
+    --nav: #183a3f;
+    --seg-on: #20b7a5;
     --seg-on-ink: #0b0b0c;
-    --track: #2e2e32;
+    --track: #294347;
     --bad: #ff8a80;
     --ok: #7bd88f;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-    --bg: #0a0a0b;
-    --card: #161617;
-    --card2: #202022;
-    --ink: #f3f3f0;
-    --muted: #9b9da3;
-    --line: rgba(255, 255, 255, .1);
+    --bg: #0b171a;
+    --card: #122327;
+    --card2: #192c30;
+    --ink: #edf7f6;
+    --muted: #9db2b5;
+    --line: rgba(207, 239, 235, .12);
     --yellow-edge: transparent;
-    --hero: #252528;
-    --nav: #2b2b2f;
-    --seg-on: #f1f30b;
+    --hero: #15383d;
+    --nav: #183a3f;
+    --seg-on: #20b7a5;
     --seg-on-ink: #0b0b0c;
-    --track: #2e2e32;
+    --track: #294347;
     --bad: #ff8a80;
     --ok: #7bd88f;
   color-scheme: dark;
@@ -89,14 +89,22 @@ svg { display: block; }
 
 .app { max-width: 480px; margin: 0 auto; padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px)); min-width: 0; }
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 2px 14px; }
+.brand-name { display:flex; flex-direction:column; line-height:1.2; gap:3px; }
+.brand-name small { color:var(--muted); font-size:10px; font-weight:500; letter-spacing:.2px; }
+.logo img { width:30px; height:30px; object-fit:contain; }
+.settings-footer { text-align:center; color:var(--muted); font-size:11px; padding:10px 8px 20px; letter-spacing:.35px; }
+.vehicle-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.vehicle-actions .btn-ghost { flex:1; min-width:130px; }
+.btn-danger { color:var(--bad); border:1px solid var(--line); background:var(--card2); }
+
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; }
 .logo { width: 40px; height: 40px; border-radius: 50%; background: var(--yellow); color: var(--yellow-ink); display: grid; place-items: center; box-shadow: 0 0 0 1.5px var(--yellow-edge); }
 .icon-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--card2); display: grid; place-items: center; box-shadow: 0 0 0 1px var(--line); }
 
 #view { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-.card { background: var(--card); border-radius: 28px; padding: 18px; min-width: 0; }
+.card { background: var(--card); border-radius: 24px; padding: 18px; border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(20, 45, 50, .035); min-width: 0; }
 .card2 { background: var(--card2); border-radius: 22px; padding: 14px 16px; min-width: 0; }
-.h1 { font-size: 30px; line-height: 1.3; font-weight: 900; margin: 4px 2px 2px; text-wrap: balance; }
+.h1 { font-size: 23px; line-height: 1.3; font-weight: 900; margin: 4px 2px 2px; text-wrap: balance; }
 .h2 { font-size: 17px; font-weight: 800; margin: 0; }
 .eyebrow { color: var(--muted); font-size: 13px; margin: 0; }
 .mark { background: var(--yellow); color: var(--yellow-ink); padding: 0 10px; border-radius: 10px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
@@ -106,7 +114,7 @@ svg { display: block; }
 .stack { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
 
 /* hero */
-.hero { background: var(--hero); color: var(--hero-ink); border-radius: 32px; padding: 18px 18px 20px; position: relative; overflow: hidden; }
+.hero { background: linear-gradient(135deg, var(--hero), #17665f); color: var(--hero-ink); border-radius: 28px; padding: 18px 18px 20px; position: relative; overflow: hidden; }
 .hero > * { position: relative; }
 .hero .wm { position: absolute; inset-inline-end: -8px; bottom: -34px; font-size: 150px; font-weight: 900; line-height: 1; color: rgba(255, 255, 255, .06); pointer-events: none; user-select: none; }
 .hero .eyebrow { color: var(--hero-mut); margin-top: 16px; }
@@ -268,7 +276,7 @@ button:disabled { cursor: default; }
 </style>
 <div class="app" dir="rtl" lang="fa">
   <header class="topbar">
-    <div class="brand"><span class="logo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16"/><path d="M3 21h12"/><path d="M14 9h2a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V8l-3-3"/><path d="M7 8h4"/></svg></span>حساب بنزین</div>
+    <div class="brand"><span class="logo"><img src="icons/icon.svg" alt="لوگوی باک‌یار"></span><span class="brand-name">باک‌یار<small>مدیریت مصرف و هزینه سوخت</small></span></div>
     <button type="button" class="icon-btn" id="themeBtn" data-act="theme" aria-label="تغییر حالت روشن و تاریک"></button>
   </header>
   <main id="view"></main>
@@ -1038,8 +1046,10 @@ if (typeof module !== 'undefined') module.exports = FuelLogic;
       h += '<section class="card stack"><div class="vname"><span class="vicon">' + vIcon(v) + '</span>کارت سوخت ' + esc(v.name) + '</div>' +
         '<div class="field"><label for="vn-' + v.id + '">نام</label><input id="vn-' + v.id + '" class="inp" type="text" data-set="vname" data-id="' + v.id + '" value="' + esc(v.name) + '"></div>' +
         '<div class="grid2"><div class="field"><label for="vq-' + v.id + '">سهمیه‌ی ماهانه (لیتر)</label><input id="vq-' + v.id + '" class="inp tn" type="text" inputmode="decimal" data-set="vquota" data-id="' + v.id + '" value="' + faL(v.quota) + '"></div>' +
-        '<div class="field"><label for="vp-' + v.id + '">قیمت سهمیه (تومان)</label><input id="vp-' + v.id + '" class="inp tn" type="text" inputmode="numeric" data-set="vp1" data-id="' + v.id + '" value="' + toman(v.p1) + '"></div></div></section>';
+        '<div class="field"><label for="vp-' + v.id + '">قیمت سهمیه (تومان)</label><input id="vp-' + v.id + '" class="inp tn" type="text" inputmode="numeric" data-set="vp1" data-id="' + v.id + '" value="' + toman(v.p1) + '"></div></div>' +
+        '<button type="button" class="btn-ghost btn-danger" data-act="del-vehicle" data-id="' + v.id + '">حذف این وسیله</button></section>';
     });
+    h += '<section class="card stack"><h2 class="h2">افزودن وسیله</h2><p class="hint">برای هر خودرو یا موتور، سهمیه و آمار جداگانه نگه‌داری می‌شود.</p><div class="vehicle-actions"><button type="button" class="btn-ghost" data-act="add-vehicle" data-kind="car">＋ افزودن خودرو</button><button type="button" class="btn-ghost" data-act="add-vehicle" data-kind="bike">＋ افزودن موتور</button></div></section>';
     h += '<section class="card stack"><h2 class="h2">بعد از سهمیه</h2><p class="hint">این نرخ‌ها برای هر کارت و در هر ماه شمسی حساب می‌شوند.</p>' +
       '<div class="grid2"><div class="field"><label for="t2">حجم نیم‌بها (لیتر)</label><input id="t2" class="inp tn" type="text" inputmode="decimal" data-set="t2" value="' + faL(S.t2) + '"></div>' +
       '<div class="field"><label for="p2">قیمت نیم‌بها (تومان)</label><input id="p2" class="inp tn" type="text" inputmode="numeric" data-set="p2" value="' + toman(S.p2) + '"></div></div>' +
@@ -1051,6 +1061,7 @@ if (typeof module !== 'undefined') module.exports = FuelLogic;
       '<button type="button" class="btn-dark" data-act="copy">' + ic('copy', 18) + ' کپی پشتیبان</button>' +
       '<div class="field"><label for="restore">بازیابی از متن پشتیبان</label><textarea id="restore" class="inp" placeholder="متن پشتیبان را اینجا بچسبان"></textarea></div>' +
       '<button type="button" class="btn-ghost" data-act="restore">بازیابی</button></section>';
+    h += '<footer class="settings-footer">Designed &amp; Developed by Sajad Darvishi</footer>';
     return h;
   }
 
@@ -1099,6 +1110,23 @@ if (typeof module !== 'undefined') module.exports = FuelLogic;
       toast('حذف شد');
     },
     'add-veh': function (el) { ui.add.vid = el.getAttribute('data-v'); render(); },
+    'add-vehicle': function (el) {
+      var kind = el.getAttribute('data-kind'), count = S.vehicles.filter(function(v){ return v.kind === kind; }).length + 1;
+      var id = 'veh-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,6);
+      S.vehicles.push({ id:id, name:(kind === 'bike' ? 'موتور ' : 'خودرو ') + digits(count), kind:kind, quota:kind === 'bike' ? 10 : 30, p1:1500 });
+      persistSettings(); render(); toast('وسیله اضافه شد');
+    },
+    'del-vehicle': function (el) {
+      var id = el.getAttribute('data-id'), v = vehById(id);
+      if (!v) return;
+      if (S.vehicles.length <= 1) { toast('حداقل یک وسیله باید باقی بماند'); return; }
+      var removed = fills.filter(function(f){ return f.vid === id; });
+      removed.forEach(function(f){ persistDelete(f.id); });
+      fills = fills.filter(function(f){ return f.vid !== id; });
+      S.vehicles = S.vehicles.filter(function(x){ return x.id !== id; });
+      if (ui.add && ui.add.vid === id) ui.add.vid = S.vehicles[0].id;
+      persistSettings(); render(); toast('وسیله و سوخت‌گیری‌های مرتبط حذف شدند');
+    },
     'add-step': function (el) {
       var a = ui.add, d = +el.getAttribute('data-d');
       a.liters = Math.max(0, (isFinite(a.liters) ? a.liters : 0) + d);
