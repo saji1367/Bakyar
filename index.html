@@ -1,0 +1,1195 @@
+<!doctype html><html><head><meta charset=utf8><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0c0c0d"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="باک‌یار"><link rel="manifest" href="manifest.json"><link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icons/icon-192.png"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>باک‌یار | مدیریت مصرف و هزینه سوخت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap">
+<style>
+/* Layout: a single phone-width column, big rounded cards, black pill nav floating at the bottom. */
+:root {
+  --bg: #e4e5e7;
+  --card: #f3f3f4;
+  --card2: #ffffff;
+  --ink: #0b0b0c;
+  --muted: #666870;
+  --line: rgba(11, 11, 12, .09);
+  --yellow: #f1f30b;
+  --yellow-ink: #0b0b0c;
+  --yellow-edge: #0b0b0c;
+  --hero: #0e0e0f;
+  --hero-ink: #ffffff;
+  --hero-mut: rgba(255, 255, 255, .62);
+  --nav: #0c0c0d;
+  --nav-ink: #ffffff;
+  --seg-on: #0c0c0d;
+  --seg-on-ink: #ffffff;
+  --track: #d9dadd;
+  --bad: #b3261e;
+  --ok: #1b7f3b;
+  --font: 'Vazirmatn', Tahoma, 'Segoe UI', system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0a0a0b;
+    --card: #161617;
+    --card2: #202022;
+    --ink: #f3f3f0;
+    --muted: #9b9da3;
+    --line: rgba(255, 255, 255, .1);
+    --yellow-edge: transparent;
+    --hero: #252528;
+    --nav: #2b2b2f;
+    --seg-on: #f1f30b;
+    --seg-on-ink: #0b0b0c;
+    --track: #2e2e32;
+    --bad: #ff8a80;
+    --ok: #7bd88f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+    --bg: #0a0a0b;
+    --card: #161617;
+    --card2: #202022;
+    --ink: #f3f3f0;
+    --muted: #9b9da3;
+    --line: rgba(255, 255, 255, .1);
+    --yellow-edge: transparent;
+    --hero: #252528;
+    --nav: #2b2b2f;
+    --seg-on: #f1f30b;
+    --seg-on-ink: #0b0b0c;
+    --track: #2e2e32;
+    --bad: #ff8a80;
+    --ok: #7bd88f;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.7;
+  padding-block: 8px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  -webkit-tap-highlight-color: transparent;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; border: 0; background: none; padding: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+:root[data-theme="dark"] :focus-visible { outline-color: var(--yellow); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) :focus-visible { outline-color: var(--yellow); } }
+.num, .tn { font-variant-numeric: tabular-nums; }
+svg { display: block; }
+
+.app { max-width: 480px; margin: 0 auto; padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px)); min-width: 0; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 2px 14px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; }
+.logo { width: 40px; height: 40px; border-radius: 50%; background: var(--yellow); color: var(--yellow-ink); display: grid; place-items: center; box-shadow: 0 0 0 1.5px var(--yellow-edge); }
+.icon-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--card2); display: grid; place-items: center; box-shadow: 0 0 0 1px var(--line); }
+
+#view { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.card { background: var(--card); border-radius: 28px; padding: 18px; min-width: 0; }
+.card2 { background: var(--card2); border-radius: 22px; padding: 14px 16px; min-width: 0; }
+.h1 { font-size: 30px; line-height: 1.3; font-weight: 900; margin: 4px 2px 2px; text-wrap: balance; }
+.h2 { font-size: 17px; font-weight: 800; margin: 0; }
+.eyebrow { color: var(--muted); font-size: 13px; margin: 0; }
+.mark { background: var(--yellow); color: var(--yellow-ink); padding: 0 10px; border-radius: 10px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.muted { color: var(--muted); }
+.small { font-size: 12.5px; }
+.row-between { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.stack { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+
+/* hero */
+.hero { background: var(--hero); color: var(--hero-ink); border-radius: 32px; padding: 18px 18px 20px; position: relative; overflow: hidden; }
+.hero > * { position: relative; }
+.hero .wm { position: absolute; inset-inline-end: -8px; bottom: -34px; font-size: 150px; font-weight: 900; line-height: 1; color: rgba(255, 255, 255, .06); pointer-events: none; user-select: none; }
+.hero .eyebrow { color: var(--hero-mut); margin-top: 16px; }
+.hero .big { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
+.hero .big .num { font-size: 52px; line-height: 1.15; font-weight: 900; letter-spacing: -.5px; }
+.hero .big .unit { font-size: 16px; color: var(--hero-mut); }
+.hero-stats { display: flex; gap: 22px; margin-top: 6px; flex-wrap: wrap; }
+.hero-stats b { font-size: 18px; margin-inline-end: 6px; }
+.hero-stats span { color: var(--hero-mut); font-size: 13px; }
+.split { display: flex; height: 10px; border-radius: 99px; overflow: hidden; background: rgba(255, 255, 255, .12); margin-top: 16px; gap: 2px; }
+.split i { display: block; height: 100%; }
+.split .car { background: #fff; }
+.split .bike { background: var(--yellow); }
+.legend { display: flex; gap: 16px; margin-top: 8px; font-size: 12.5px; flex-wrap: wrap; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.dot.car { background: var(--ink); }
+.dot.bike { background: var(--yellow); box-shadow: 0 0 0 1px var(--yellow-edge); }
+.hero .dot.car { background: #fff; }
+
+/* segmented controls */
+.seg { display: flex; gap: 4px; padding: 4px; border-radius: 99px; background: var(--card2); min-width: 0; }
+.seg button { flex: 1; min-height: 40px; padding: 0 12px; border-radius: 99px; font-weight: 700; font-size: 14px; color: var(--muted); display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; }
+.seg button.on { background: var(--seg-on); color: var(--seg-on-ink); }
+.hero .seg { background: rgba(255, 255, 255, .1); }
+.hero .seg button { color: var(--hero-mut); }
+.hero .seg button.on { background: var(--yellow); color: #0b0b0c; }
+
+/* quota slider card */
+.quota-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.vname { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; }
+.vicon { width: 42px; height: 42px; border-radius: 50%; background: var(--card2); display: grid; place-items: center; flex: none; }
+.tier { font-size: 12.5px; font-weight: 700; padding: 3px 12px; border-radius: 99px; background: var(--card2); white-space: nowrap; }
+.tier.t1 { background: var(--yellow); color: var(--yellow-ink); box-shadow: 0 0 0 1px var(--yellow-edge); }
+.q-big { display: flex; align-items: baseline; gap: 6px; margin-top: 10px; }
+.q-big .num { font-size: 40px; font-weight: 900; line-height: 1.2; }
+.q-big .of { color: var(--muted); }
+.track { position: relative; height: 34px; margin-top: 6px; }
+.track .bar { position: absolute; inset-inline: 0; top: 7px; height: 20px; border-radius: 99px; background: var(--track); overflow: hidden; }
+.track .fill { position: absolute; inset-inline-start: 0; top: 0; height: 100%; background: var(--yellow); border-radius: 99px; box-shadow: inset 0 0 0 1.5px var(--yellow-edge); min-width: 20px; }
+.track .knob { position: absolute; top: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--nav); color: var(--nav-ink); display: grid; place-items: center; font-size: 12px; font-weight: 800; box-shadow: 0 0 0 3px var(--card); }
+.ticks { display: flex; justify-content: space-between; color: var(--muted); font-size: 11.5px; padding: 0 4px; }
+
+/* rows */
+.rows { display: flex; flex-direction: column; gap: 8px; }
+.row { display: flex; align-items: center; gap: 12px; background: var(--card2); border-radius: 20px; padding: 10px 12px; min-width: 0; }
+.row .ri { width: 40px; height: 40px; border-radius: 50%; background: var(--card); display: grid; place-items: center; flex: none; }
+.row .rt { flex: 1; min-width: 0; }
+.row .rt b { display: block; font-size: 14.5px; }
+.row .rt span { display: block; color: var(--muted); font-size: 12.5px; overflow-wrap: anywhere; }
+.row .rv { text-align: end; font-weight: 800; font-size: 14px; white-space: nowrap; }
+.row .rv small { display: block; font-weight: 500; color: var(--muted); font-size: 12px; }
+.del-btn { color: var(--bad); font-size: 12.5px; font-weight: 700; padding: 6px 10px; border-radius: 99px; }
+.del-btn.yes { background: var(--bad); color: #fff; }
+.del-btn.no { color: var(--muted); }
+
+.yellow-card { background: var(--yellow); color: var(--yellow-ink); border-radius: 28px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; box-shadow: inset 0 0 0 1.5px var(--yellow-edge); }
+.yellow-card .big { font-size: 24px; font-weight: 900; line-height: 1.3; }
+.yellow-card p { margin: 0; font-size: 13px; opacity: .85; }
+.yellow-card .ic { width: 44px; height: 44px; border-radius: 50%; background: #0b0b0c; color: #fff; display: grid; place-items: center; flex: none; }
+
+.banner { display: flex; gap: 12px; align-items: center; justify-content: space-between; background: var(--card2); border-radius: 22px; padding: 12px 14px; box-shadow: inset 0 0 0 1.5px var(--ink); }
+.banner p { margin: 0; font-size: 13px; }
+.chip { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 99px; background: var(--card2); font-weight: 700; font-size: 13.5px; box-shadow: 0 0 0 1px var(--line); }
+.chip.on { background: var(--seg-on); color: var(--seg-on-ink); }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* primary button (black pill + yellow arrow disc) */
+.btn { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; padding: 8px 24px 8px 8px; padding-inline: 24px 8px; border-radius: 99px; background: var(--nav); color: var(--nav-ink); font-weight: 800; font-size: 16px; }
+.btn .disc { width: 46px; height: 46px; border-radius: 50%; background: var(--yellow); color: var(--yellow-ink); display: grid; place-items: center; flex: none; }
+.btn-ghost { min-height: 44px; padding: 0 18px; border-radius: 99px; background: var(--card2); font-weight: 700; box-shadow: 0 0 0 1px var(--line); }
+.btn-dark { min-height: 44px; padding: 0 18px; border-radius: 99px; background: var(--nav); color: var(--nav-ink); font-weight: 700; }
+
+/* forms */
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field > label, .lbl { font-size: 13px; font-weight: 700; color: var(--muted); }
+.inp, .sel { width: 100%; min-height: 48px; border-radius: 16px; border: 0; background: var(--card2); padding: 0 14px; box-shadow: 0 0 0 1px var(--line); min-width: 0; }
+.inp:focus-visible, .sel:focus-visible { outline: 3px solid var(--ink); }
+.sel { appearance: none; -webkit-appearance: none; background-image: none; text-align: start; }
+.grid3 { display: grid; grid-template-columns: 1fr 1.6fr 1.2fr; gap: 8px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.hint { font-size: 12.5px; color: var(--muted); margin: 0; }
+.hint.ok { color: var(--ok); font-weight: 700; }
+.hint.err { color: var(--bad); font-weight: 700; }
+textarea.inp { padding: 12px 14px; min-height: 96px; resize: vertical; direction: ltr; text-align: left; font-size: 12px; line-height: 1.5; }
+
+/* liters ring */
+.ringrow { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.step { width: 52px; height: 52px; border-radius: 50%; background: var(--card2); display: grid; place-items: center; box-shadow: 0 0 0 1px var(--line); flex: none; }
+.ring { position: relative; width: 196px; height: 196px; flex: none; }
+.ring svg { position: absolute; inset: 0; }
+.ring .c { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring .lit { width: 110px; border: 0; background: transparent; text-align: center; font-size: 44px; font-weight: 900; line-height: 1.2; padding: 0; border-radius: 12px; }
+.ring .lit:focus-visible { outline: 3px solid var(--ink); }
+.ring .u { color: var(--muted); font-size: 13px; margin-top: -4px; }
+.r-track { stroke: var(--track); }
+.r-used { stroke: var(--ink); }
+.r-new { stroke: var(--yellow); }
+.r-edge { stroke: var(--yellow-edge); }
+.breakdown { display: flex; flex-direction: column; gap: 4px; font-size: 13.5px; }
+.breakdown div { display: flex; justify-content: space-between; gap: 10px; }
+.breakdown .tot { border-top: 1px dashed var(--line); padding-top: 8px; margin-top: 4px; font-weight: 900; font-size: 18px; }
+
+/* charts */
+.chart { width: 100%; height: auto; }
+.chart text { font-family: var(--font); fill: var(--muted); font-size: 8.5px; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .b-car { fill: var(--ink); }
+.chart .b-bike { fill: var(--yellow); stroke: var(--yellow-edge); stroke-width: .8; }
+.chart .cur { fill: var(--ink); font-weight: 800; }
+.chart .hit { fill: transparent; cursor: pointer; }
+.chart .sel-bg { fill: var(--line); }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat { background: var(--card2); border-radius: 20px; padding: 12px 14px; min-width: 0; }
+.stat b { display: block; font-size: 20px; font-weight: 900; line-height: 1.4; overflow-wrap: anywhere; }
+.stat span { color: var(--muted); font-size: 12.5px; }
+
+/* map */
+.mapbox { background: var(--card2); border-radius: 24px; overflow: hidden; box-shadow: 0 0 0 1px var(--line); }
+.mapbox svg { width: 100%; height: auto; }
+.mapbox text { font-family: var(--font); }
+.m-grid { stroke: var(--line); stroke-width: 1; }
+.m-dot { fill: var(--ink); stroke: var(--card2); stroke-width: 2; cursor: pointer; }
+.m-top { fill: var(--yellow); stroke: var(--yellow-edge); stroke-width: 2.5; cursor: pointer; }
+.m-sel { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 3 3; }
+.m-lbl { fill: var(--ink); font-size: 11px; font-weight: 700; paint-order: stroke; stroke: var(--card2); stroke-width: 3px; }
+.m-small { fill: var(--muted); font-size: 10px; }
+.rank { width: 30px; height: 30px; border-radius: 50%; background: var(--card); display: grid; place-items: center; font-weight: 800; font-size: 13px; flex: none; }
+.rank.first { background: var(--yellow); color: var(--yellow-ink); box-shadow: 0 0 0 1px var(--yellow-edge); }
+.meter { height: 6px; border-radius: 99px; background: var(--track); margin-top: 6px; overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--ink); border-radius: 99px; }
+.extlink { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 700; padding: 4px 10px; border-radius: 99px; background: var(--card); text-decoration: none; white-space: nowrap; }
+
+/* nav */
+.nav { position: fixed; z-index: 20; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); margin: 0 auto; max-width: 448px; background: var(--nav); border-radius: 99px; padding: 8px; display: flex; justify-content: space-between; gap: 4px; box-shadow: 0 10px 30px rgba(0, 0, 0, .25); }
+.nav button { flex: 1; height: 52px; border-radius: 99px; color: var(--nav-ink); opacity: .78; display: grid; place-items: center; }
+.nav button.on { background: var(--yellow); color: var(--yellow-ink); opacity: 1; box-shadow: 0 0 0 1.5px var(--yellow-edge); }
+.toast { position: fixed; z-index: 30; left: 50%; transform: translateX(-50%); bottom: calc(96px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 99px; font-weight: 700; font-size: 14px; max-width: calc(100% - 32px); text-align: center; box-shadow: 0 8px 24px rgba(0, 0, 0, .25); }
+.empty { text-align: center; padding: 22px 10px; color: var(--muted); }
+.empty b { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .track .fill { transition: width .4s ease; }
+  .ring circle { transition: stroke-dasharray .25s ease; }
+}
+@media (max-width: 380px) {
+  .hero .big .num { font-size: 42px; }
+  .ring { width: 172px; height: 172px; }
+  .step { width: 46px; height: 46px; }
+}
+
+.quota-head { flex-wrap: wrap; }
+.chart, .mapbox svg { direction: ltr; }
+.acts { display: flex; gap: 4px; margin-top: 2px; }
+.acts .del-btn { padding-inline: 0 10px; }
+.acts .del-btn.yes { padding: 6px 12px; }
+button:disabled { cursor: default; }
+
+</style>
+<div class="app" dir="rtl" lang="fa">
+  <header class="topbar">
+    <div class="brand"><span class="logo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16"/><path d="M3 21h12"/><path d="M14 9h2a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V8l-3-3"/><path d="M7 8h4"/></svg></span>حساب بنزین</div>
+    <button type="button" class="icon-btn" id="themeBtn" data-act="theme" aria-label="تغییر حالت روشن و تاریک"></button>
+  </header>
+  <main id="view"></main>
+</div>
+<nav class="nav" id="nav" dir="rtl" aria-label="پیمایش اصلی"></nav>
+<div class="toast" id="toast" role="status" hidden></div>
+<script>
+var FuelLogic = (function () {
+  'use strict';
+
+  var PDIG = '۰۱۲۳۴۵۶۷۸۹';
+  var MONTHS = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
+  var MONTHS_SHORT = ['فرو', 'ارد', 'خرد', 'تیر', 'مرد', 'شهر', 'مهر', 'آبا', 'آذر', 'دی', 'بهم', 'اسف'];
+
+  /* ---------- digits & formatting ---------- */
+  function normDigits(s) {
+    return String(s == null ? '' : s)
+      .replace(/[۰-۹]/g, function (d) { return PDIG.indexOf(d); })
+      .replace(/[٠-٩]/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); })
+      .replace(/٫/g, '.')
+      .replace(/[،٬]/g, ',');
+  }
+  function parseNum(s) {
+    var t = normDigits(s).replace(/\s/g, '').replace(/[,\/]/g, '.');
+    var n = parseFloat(t);
+    return isFinite(n) ? n : NaN;
+  }
+  function parsePrice(s) {
+    var t = normDigits(s).replace(/[,\s]/g, '');
+    var n = parseFloat(t);
+    return isFinite(n) ? n : NaN;
+  }
+  var nf0, nf1;
+  try {
+    nf0 = new Intl.NumberFormat('fa-IR', { maximumFractionDigits: 0 });
+    nf1 = new Intl.NumberFormat('fa-IR', { maximumFractionDigits: 1 });
+  } catch (e) {
+    nf0 = { format: function (n) { return String(Math.round(n)); } };
+    nf1 = { format: function (n) { return String(n); } };
+  }
+  function digits(n) { return String(n).replace(/\d/g, function (d) { return PDIG[d]; }); }
+  function toman(n) { return nf0.format(Math.round(n)); }
+  function faL(n) { return nf1.format(Math.round(n * 10) / 10); }
+  function compact(n) {
+    if (n >= 1e6) return nf1.format(Math.round(n / 1e5) / 10) + ' میلیون';
+    if (n >= 1e3) return nf0.format(Math.round(n / 1e3)) + ' هزار';
+    return nf0.format(Math.round(n));
+  }
+
+  /* ---------- Jalali calendar (arithmetic 33-year algorithm) ---------- */
+  function div(a, b) { return ~~(a / b); }
+  function g2j(gy, gm, gd) {
+    var gdm = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+    var jy = gy <= 1600 ? 0 : 979;
+    gy -= gy <= 1600 ? 621 : 1600;
+    var gy2 = gm > 2 ? gy + 1 : gy;
+    var days = 365 * gy + div(gy2 + 3, 4) - div(gy2 + 99, 100) + div(gy2 + 399, 400) - 80 + gd + gdm[gm - 1];
+    jy += 33 * div(days, 12053);
+    days %= 12053;
+    jy += 4 * div(days, 1461);
+    days %= 1461;
+    if (days > 365) { jy += div(days - 1, 365); days = (days - 1) % 365; }
+    var jm = days < 186 ? 1 + div(days, 31) : 7 + div(days - 186, 30);
+    var jd = 1 + (days < 186 ? days % 31 : (days - 186) % 30);
+    return [jy, jm, jd];
+  }
+  function j2g(jy, jm, jd) {
+    var gy = jy <= 979 ? 621 : 1600;
+    jy -= jy <= 979 ? 0 : 979;
+    var days = 365 * jy + div(jy, 33) * 8 + div(jy % 33 + 3, 4) + 78 + jd + (jm < 7 ? (jm - 1) * 31 : (jm - 7) * 30 + 186);
+    gy += 400 * div(days, 146097);
+    days %= 146097;
+    if (days > 36524) {
+      gy += 100 * div(--days, 36524);
+      days %= 36524;
+      if (days >= 365) days++;
+    }
+    gy += 4 * div(days, 1461);
+    days %= 1461;
+    if (days > 365) { gy += div(days - 1, 365); days = (days - 1) % 365; }
+    var gd = days + 1;
+    var leap = (gy % 4 === 0 && gy % 100 !== 0) || gy % 400 === 0;
+    var sal = [0, 31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    var gm;
+    for (gm = 0; gm < 13 && gd > sal[gm]; gm++) gd -= sal[gm];
+    return [gy, gm, gd];
+  }
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function isoFromG(y, m, d) { return y + '-' + pad2(m) + '-' + pad2(d); }
+  function isoFromJ(jy, jm, jd) { var g = j2g(jy, jm, jd); return isoFromG(g[0], g[1], g[2]); }
+  var jcache = {};
+  function jOfIso(iso) {
+    if (jcache[iso]) return jcache[iso];
+    var p = iso.split('-');
+    var r = g2j(+p[0], +p[1], +p[2]);
+    jcache[iso] = r;
+    return r;
+  }
+  function isLeapJ(jy) {
+    var g = j2g(jy, 12, 30);
+    var back = g2j(g[0], g[1], g[2]);
+    return back[0] === jy && back[1] === 12 && back[2] === 30;
+  }
+  function dim(jy, jm) {
+    if (jm <= 6) return 31;
+    if (jm <= 11) return 30;
+    return isLeapJ(jy) ? 30 : 29;
+  }
+  function todayParts(d) {
+    d = d || new Date();
+    var iso = isoFromG(d.getFullYear(), d.getMonth() + 1, d.getDate());
+    var j = jOfIso(iso);
+    return { iso: iso, jy: j[0], jm: j[1], jd: j[2] };
+  }
+  function fmtDay(iso, withYear) {
+    var j = jOfIso(iso);
+    return digits(j[2]) + ' ' + MONTHS[j[1] - 1] + (withYear ? ' ' + digits(j[0]) : '');
+  }
+
+  /* ---------- fuel pricing ---------- */
+  function tierSplit(start, liters, cfg) {
+    var b1 = cfg.q, b2 = cfg.q + cfg.t2, end = start + liters;
+    function seg(lo, hi) { return Math.max(0, Math.min(end, hi) - Math.max(start, lo)); }
+    var l1 = seg(0, b1), l2 = seg(b1, b2), l3 = seg(b2, Infinity);
+    return { l1: l1, l2: l2, l3: l3, cost: l1 * cfg.p1 + l2 * cfg.p2 + l3 * cfg.p3 };
+  }
+  function vehCfg(S, v) {
+    return { q: +v.quota, p1: +v.p1, t2: +S.t2, p2: +S.p2, p3: +S.p3 };
+  }
+  function tierOf(used, cfg) {
+    if (used < cfg.q) return { key: 1, price: cfg.p1, name: 'سهمیه' };
+    if (used < cfg.q + cfg.t2) return { key: 2, price: cfg.p2, name: 'نیم‌بها' };
+    return { key: 3, price: cfg.p3, name: 'آزاد' };
+  }
+  function cmpFill(a, b) {
+    if (a.date !== b.date) return a.date < b.date ? -1 : 1;
+    if ((a.t || 0) !== (b.t || 0)) return (a.t || 0) - (b.t || 0);
+    return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+  }
+  function enrich(S, fills) {
+    var vmap = {};
+    S.vehicles.forEach(function (v) { vmap[v.id] = v; });
+    var rows = fills.map(function (f) {
+      var j = jOfIso(f.date);
+      return Object.assign({}, f, { jy: j[0], jm: j[1], jd: j[2] });
+    });
+    rows.sort(cmpFill);
+    var used = {};
+    rows.forEach(function (r) {
+      var v = vmap[r.vid];
+      if (!v) { r.cost = 0; r.l1 = 0; r.l2 = 0; r.l3 = 0; r.start = 0; return; }
+      var k = r.vid + '|' + r.jy + '|' + r.jm;
+      var start = used[k] || 0;
+      var sp = tierSplit(start, r.liters, vehCfg(S, v));
+      used[k] = start + r.liters;
+      r.l1 = sp.l1; r.l2 = sp.l2; r.l3 = sp.l3; r.cost = sp.cost; r.start = start;
+    });
+    return rows;
+  }
+  function sum(S, rows) {
+    var out = { liters: 0, cost: 0, count: rows.length, saved: 0, v: {} };
+    S.vehicles.forEach(function (v) { out.v[v.id] = { liters: 0, cost: 0, count: 0 }; });
+    rows.forEach(function (r) {
+      out.liters += r.liters;
+      out.cost += r.cost;
+      out.saved += r.liters * S.p3 - r.cost;
+      var b = out.v[r.vid];
+      if (b) { b.liters += r.liters; b.cost += r.cost; b.count++; }
+    });
+    return out;
+  }
+  function usedInMonth(rows, vid, jy, jm, uptoIso) {
+    var t = 0;
+    rows.forEach(function (r) {
+      if (r.vid === vid && r.jy === jy && r.jm === jm && (!uptoIso || r.date <= uptoIso)) t += r.liters;
+    });
+    return t;
+  }
+  function niceMax(m) {
+    if (!(m > 0)) return 1;
+    var p = Math.pow(10, Math.floor(Math.log10(m)));
+    var f = m / p;
+    var n = f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10;
+    return n * p;
+  }
+
+  /* ---------- coordinates & stations ---------- */
+  function parseCoords(s) {
+    if (!s) return null;
+    var t = normDigits(s).replace(/%2C/gi, ',');
+    var m = t.match(/(-?\d{1,3}\.\d{2,})\D{1,8}?(-?\d{1,3}\.\d{2,})/);
+    if (!m) return null;
+    var a = parseFloat(m[1]), b = parseFloat(m[2]);
+    if (Math.abs(a) > 90 || (a >= 44 && a <= 64 && b >= 24 && b <= 40)) { var x = a; a = b; b = x; }
+    if (Math.abs(a) > 90 || Math.abs(b) > 180) return null;
+    return { lat: Math.round(a * 1e6) / 1e6, lng: Math.round(b * 1e6) / 1e6 };
+  }
+  function stationKey(f) {
+    var n = (f.station || '').replace(/\s+/g, ' ').trim();
+    if (n) return 'n:' + n.toLowerCase();
+    if (typeof f.lat === 'number' && typeof f.lng === 'number') return 'c:' + f.lat.toFixed(3) + ',' + f.lng.toFixed(3);
+    return null;
+  }
+  function stations(rows) {
+    var map = {};
+    rows.forEach(function (r) {
+      var k = stationKey(r);
+      if (!k) return;
+      var s = map[k];
+      if (!s) {
+        s = map[k] = { key: k, name: (r.station || '').replace(/\s+/g, ' ').trim() || 'پمپ بدون نام', visits: 0, liters: 0, cost: 0, lat: null, lng: null, last: '' };
+      }
+      s.visits++; s.liters += r.liters; s.cost += r.cost;
+      if (r.date >= s.last) s.last = r.date;
+      if (typeof r.lat === 'number' && typeof r.lng === 'number') { s.lat = r.lat; s.lng = r.lng; }
+    });
+    var list = Object.keys(map).map(function (k) { return map[k]; });
+    list.sort(function (a, b) { return b.visits - a.visits || b.liters - a.liters; });
+    return list;
+  }
+  function project(points, W, H, pad) {
+    var minLat = Infinity, maxLat = -Infinity, minLng = Infinity, maxLng = -Infinity;
+    points.forEach(function (p) {
+      minLat = Math.min(minLat, p.lat); maxLat = Math.max(maxLat, p.lat);
+      minLng = Math.min(minLng, p.lng); maxLng = Math.max(maxLng, p.lng);
+    });
+    if (maxLat - minLat < 0.006) { var c = (maxLat + minLat) / 2; minLat = c - 0.004; maxLat = c + 0.004; }
+    if (maxLng - minLng < 0.006) { var c2 = (maxLng + minLng) / 2; minLng = c2 - 0.004; maxLng = c2 + 0.004; }
+    var cos = Math.cos(((minLat + maxLat) / 2) * Math.PI / 180);
+    var spanX = (maxLng - minLng) * cos, spanY = maxLat - minLat;
+    var scale = Math.min((W - 2 * pad) / spanX, (H - 2 * pad) / spanY);
+    var offX = (W - spanX * scale) / 2, offY = (H - spanY * scale) / 2;
+    return {
+      pxPerKm: scale / 111.32,
+      xy: function (p) { return { x: offX + (p.lng - minLng) * cos * scale, y: offY + (maxLat - p.lat) * scale }; }
+    };
+  }
+
+  return {
+    MONTHS: MONTHS, MONTHS_SHORT: MONTHS_SHORT,
+    normDigits: normDigits, parseNum: parseNum, parsePrice: parsePrice,
+    digits: digits, toman: toman, faL: faL, compact: compact,
+    g2j: g2j, j2g: j2g, isoFromG: isoFromG, isoFromJ: isoFromJ, jOfIso: jOfIso, isLeapJ: isLeapJ, dim: dim,
+    todayParts: todayParts, fmtDay: fmtDay,
+    tierSplit: tierSplit, vehCfg: vehCfg, tierOf: tierOf, enrich: enrich, sum: sum, usedInMonth: usedInMonth, niceMax: niceMax,
+    parseCoords: parseCoords, stationKey: stationKey, stations: stations, project: project
+  };
+})();
+if (typeof module !== 'undefined') module.exports = FuelLogic;
+
+(function () {
+  'use strict';
+  var L = FuelLogic;
+  var MONTHS = L.MONTHS, MS = L.MONTHS_SHORT, digits = L.digits, toman = L.toman, faL = L.faL;
+  var KEY = 'fuel-state-v1', TKEY = 'fuel-theme';
+
+  var IC = {
+    home: '<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/>',
+    chart: '<path d="M5 20v-9M12 20V4M19 20v-6"/>',
+    pump: '<path d="M4 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16"/><path d="M3 21h12"/><path d="M14 9h2a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V8l-3-3"/><path d="M7 8h4"/>',
+    pin: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+    sliders: '<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
+    car: '<path d="M4 15l1.6-5a2 2 0 0 1 1.9-1.4h9a2 2 0 0 1 1.9 1.4L20 15"/><rect x="3" y="15" width="18" height="4.5" rx="1.5"/><path d="M7 17.2h.01M17 17.2h.01"/>',
+    bike: '<circle cx="5.5" cy="16" r="3"/><circle cx="18.5" cy="16" r="3"/><path d="M5.5 16 9 9.5h5l2.5 6.5"/><path d="M9 9.5H7M14 9.5l1.5-3h2.5"/>',
+    arrow: '<path d="M19 12H5M11 6l-6 6 6 6"/>',
+    plus: '<path d="M12 5v14M5 12h14"/>',
+    minus: '<path d="M5 12h14"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+    moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/>',
+    chev: '<path d="M15 6l-6 6 6 6"/>',
+    chevr: '<path d="M9 6l6 6-6 6"/>',
+    ext: '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+    coin: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M9.5 9.5h4a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3h4.5"/>',
+    copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/>'
+  };
+  function ic(n, s, sw) {
+    s = s || 22;
+    return '<svg viewBox="0 0 24 24" width="' + s + '" height="' + s + '" fill="none" stroke="currentColor" stroke-width="' + (sw || 1.8) + '" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + IC[n] + '</svg>';
+  }
+  function $(s) { return document.querySelector(s); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* ---------- state ---------- */
+  function defaultSettings() {
+    return {
+      vehicles: [
+        { id: 'car', name: 'ماشین', kind: 'car', quota: 30, p1: 1500 },
+        { id: 'bike', name: 'موتور', kind: 'bike', quota: 10, p1: 1500 }
+      ],
+      t2: 200, p2: 5000, p3: 10000, demoOff: false
+    };
+  }
+  function mergeSettings(o) {
+    var d = defaultSettings();
+    if (!o || typeof o !== 'object') return d;
+    var out = Object.assign(d, JSON.parse(JSON.stringify(o)));
+    if (!Array.isArray(out.vehicles) || out.vehicles.length < 2) out.vehicles = defaultSettings().vehicles;
+    return out;
+  }
+  var S = defaultSettings();
+  var fills = [];
+  var mode = 'local', db = null, dbReady = false;
+  var pending = [];
+  var t0 = L.todayParts();
+  var ui = {
+    tab: 'home', hero: 'month', confirm: null, mapSel: -1, add: null,
+    rep: { mode: 'month', jy: t0.jy, jm: t0.jm, metric: 'cost', sel: -1 }
+  };
+
+  function loadLocal() {
+    try {
+      var j = localStorage.getItem(KEY);
+      if (j) { var o = JSON.parse(j); if (o && o.settings && Array.isArray(o.fills)) return o; }
+    } catch (e) { /* storage unavailable */ }
+    return null;
+  }
+  function saveLocal() {
+    try { localStorage.setItem(KEY, JSON.stringify({ settings: S, fills: fills })); } catch (e) { /* ignore */ }
+  }
+  function saveFail() { toast('ذخیره نشد. اتصال اینترنت را بررسی کن'); }
+  var settingsChain = Promise.resolve();
+  function persistSettings() {
+    if (mode === 'cloud') {
+      var body = JSON.parse(JSON.stringify(S));
+      settingsChain = settingsChain.then(function () { return db.doc('app/settings').set(body); }).catch(saveFail);
+    } else saveLocal();
+  }
+  function persistFill(f) {
+    if (mode === 'cloud') return db.collection('fills').doc(f.id).set(JSON.parse(JSON.stringify(f))).catch(saveFail);
+    saveLocal();
+    return Promise.resolve();
+  }
+  function persistDelete(id) {
+    if (mode === 'cloud') return db.collection('fills').doc(id).delete().catch(saveFail);
+    saveLocal();
+    return Promise.resolve();
+  }
+  function initDb() {
+    var p = (window.claude && window.claude.use) ? window.claude.use('db') : Promise.resolve(null);
+    return p.then(function (d) {
+      if (!d) { dbReady = true; return; }
+      return Promise.all([d.doc('app/settings').get(), d.collection('fills').limit(1000).get()]).then(function (res) {
+        var sd = res[0], fq = res[1];
+        var cloud = fq.docs.map(function (x) { return Object.assign({ id: x.id }, x.data()); });
+        db = d;
+        mode = 'cloud';
+        dbReady = true;
+        if (!sd.exists && !cloud.length) {
+          var loc = loadLocal();
+          if (loc && loc.fills.length) { S = mergeSettings(loc.settings); fills = loc.fills.slice(); }
+          persistSettings();
+          fills.forEach(function (f) { persistFill(f); });
+        } else {
+          if (sd.exists) S = mergeSettings(sd.data());
+          var ids = {};
+          cloud.forEach(function (f) { ids[f.id] = 1; });
+          fills = cloud;
+          pending.forEach(function (f) { if (!ids[f.id]) { fills.push(f); persistFill(f); } });
+        }
+        pending = [];
+        render();
+      });
+    }).catch(function () { dbReady = true; });
+  }
+
+  /* ---------- demo data (in memory only) ---------- */
+  var demoCache = null;
+  function makeDemo(t) {
+    var seed = 1405;
+    function rnd() { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
+    var ST = [
+      { n: 'پمپ نمونه ۱', lat: 35.7010, lng: 51.3900 },
+      { n: 'پمپ نمونه ۲', lat: 35.7120, lng: 51.4150 },
+      { n: 'پمپ نمونه ۳', lat: 35.6890, lng: 51.4230 },
+      { n: 'پمپ نمونه ۴', lat: 35.7300, lng: 51.3800 }
+    ];
+    function pick() { var r = rnd(); return r < 0.5 ? ST[0] : r < 0.78 ? ST[1] : r < 0.92 ? ST[2] : ST[3]; }
+    var out = [], id = 0;
+    for (var k = 0; k < 14; k++) {
+      var jy = t.jy, jm = t.jm - k;
+      while (jm < 1) { jm += 12; jy--; }
+      var d = L.dim(jy, jm), maxD = k === 0 ? t.jd : d;
+      var frac = k === 0 ? Math.max(0.25, maxD / d) : 1;
+      var plans = [
+        { vid: 'car', n: 2 + Math.floor(rnd() * 3), total: (26 + rnd() * 20) * frac, min: 5 },
+        { vid: 'bike', n: 1 + Math.floor(rnd() * 2), total: (8 + rnd() * 3) * frac, min: 2 }
+      ];
+      plans.forEach(function (p) {
+        var n = Math.min(p.n, maxD), days = [];
+        while (days.length < n) { var dd = 1 + Math.floor(rnd() * maxD); if (days.indexOf(dd) < 0) days.push(dd); }
+        days.sort(function (a, b) { return a - b; });
+        days.forEach(function (dd) {
+          var lit = Math.max(p.min, Math.round((p.total / n) * (0.8 + 0.4 * rnd()) * 2) / 2);
+          var s = pick();
+          id++;
+          out.push({ id: 'demo' + id, vid: p.vid, date: L.isoFromJ(jy, jm, dd), liters: lit, station: s.n, lat: s.lat, lng: s.lng, t: id });
+        });
+      });
+    }
+    return out;
+  }
+  function useDemo() { return !fills.length && !S.demoOff; }
+  function demo() {
+    var t = L.todayParts();
+    if (!demoCache || demoCache.iso !== t.iso) demoCache = { iso: t.iso, rows: makeDemo(t) };
+    return demoCache.rows;
+  }
+  function rowsAll() { return L.enrich(S, useDemo() ? demo() : fills); }
+  function vehById(id) { for (var i = 0; i < S.vehicles.length; i++) if (S.vehicles[i].id === id) return S.vehicles[i]; return S.vehicles[0]; }
+
+  /* ---------- theme ---------- */
+  function getTheme() { try { return localStorage.getItem(TKEY) || 'auto'; } catch (e) { return 'auto'; } }
+  function applyTheme(t) {
+    var r = document.documentElement;
+    if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t); else r.removeAttribute('data-theme');
+  }
+  function setTheme(t) {
+    try { if (t === 'auto') localStorage.removeItem(TKEY); else localStorage.setItem(TKEY, t); } catch (e) { /* ignore */ }
+    applyTheme(t);
+  }
+  function effectiveTheme() {
+    var a = document.documentElement.getAttribute('data-theme');
+    if (a) return a;
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  /* ---------- small helpers ---------- */
+  var tt;
+  function toast(m) {
+    var el = $('#toast');
+    el.textContent = m; el.hidden = false;
+    clearTimeout(tt);
+    tt = setTimeout(function () { el.hidden = true; }, 2400);
+  }
+  function newId() { return 'f' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+  function vIcon(v) { return ic(v.kind === 'bike' ? 'bike' : 'car', 22); }
+  function seg(items, cur, act, extra) {
+    return '<div class="seg" role="group">' + items.map(function (it) {
+      return '<button type="button" data-act="' + act + '" data-v="' + it[0] + '"' + (extra || '') + ' class="' + (cur === it[0] ? 'on' : '') + '" aria-pressed="' + (cur === it[0]) + '">' + it[1] + '</button>';
+    }).join('') + '</div>';
+  }
+
+  /* ---------- HOME ---------- */
+  function fillRow(r, withDel) {
+    var v = vehById(r.vid);
+    var sub = L.fmtDay(r.date, true) + (r.station ? ' · ' + esc(r.station) : '');
+    var acts = '';
+    if (withDel && !useDemo()) {
+      acts = ui.confirm === r.id
+        ? '<div class="acts"><button type="button" class="del-btn yes" data-act="del-yes" data-id="' + r.id + '">حذف شود</button><button type="button" class="del-btn no" data-act="del-no">نه</button></div>'
+        : '<div class="acts"><button type="button" class="del-btn" data-act="del-ask" data-id="' + r.id + '">حذف</button></div>';
+    }
+    return '<div class="row"><span class="ri">' + vIcon(v) + '</span><div class="rt"><b>' + faL(r.liters) + ' لیتر · ' + esc(v.name) + '</b><span>' + sub + '</span>' + acts + '</div><div class="rv tn">' + toman(r.cost) + '<small>تومان</small></div></div>';
+  }
+  function quotaCard(v, rows, t) {
+    var cfg = L.vehCfg(S, v), used = L.usedInMonth(rows, v.id, t.jy, t.jm), tier = L.tierOf(used, cfg);
+    var pct = Math.min(used / cfg.q, 1) * 100;
+    var ms = L.sum(S, rows.filter(function (r) { return r.vid === v.id && r.jy === t.jy && r.jm === t.jm; }));
+    var remain = Math.max(cfg.q - used, 0);
+    var foot = remain > 0
+      ? 'باقی‌مانده‌ی سهمیه: <b>' + faL(remain) + ' لیتر</b>'
+      : 'سهمیه تمام شده؛ لیتر بعدی با نرخ <b>' + tier.name + '</b>';
+    return '<section class="card" aria-label="سهمیه‌ی ' + esc(v.name) + '">' +
+      '<div class="quota-head"><div class="vname"><span class="vicon">' + vIcon(v) + '</span>' + esc(v.name) + '</div>' +
+      '<span class="tier t' + tier.key + '">لیتر بعدی ' + toman(tier.price) + ' تومان · ' + tier.name + '</span></div>' +
+      '<div class="q-big"><span class="num">' + faL(used) + '</span><span class="of">از ' + faL(cfg.q) + ' لیتر سهمیه‌ی این ماه</span></div>' +
+      '<div class="track"><div class="bar"><div class="fill" style="width:' + pct.toFixed(1) + '%"></div></div>' +
+      '<div class="knob" style="inset-inline-start:clamp(0px, calc(' + pct.toFixed(1) + '% - 17px), calc(100% - 34px))">' + ic('pump', 16) + '</div></div>' +
+      '<div class="ticks tn"><span>۰</span><span>' + faL(cfg.q / 2) + '</span><span>' + faL(cfg.q) + '</span></div>' +
+      '<div class="row-between small" style="margin-top:10px"><span>' + foot + '</span><span class="tn">هزینه‌ی ماه: <b>' + toman(ms.cost) + '</b></span></div></section>';
+  }
+  function viewHome() {
+    var t = L.todayParts(), rows = rowsAll(), per = ui.hero;
+    var sel = rows.filter(function (r) {
+      return per === 'year' ? r.jy === t.jy : per === 'month' ? (r.jy === t.jy && r.jm === t.jm) : r.date === t.iso;
+    });
+    var s = L.sum(S, sel);
+    var label = per === 'day' ? 'امروز، ' + L.fmtDay(t.iso, true) : per === 'month' ? MONTHS[t.jm - 1] + ' ' + digits(t.jy) : 'سال ' + digits(t.jy);
+    var split = s.cost > 0 ? S.vehicles.map(function (v) {
+      return '<i class="' + v.kind + '" style="width:' + (s.v[v.id].cost / s.cost * 100).toFixed(1) + '%"></i>';
+    }).join('') : '';
+    var legend = S.vehicles.map(function (v) {
+      return '<span><i class="dot ' + v.kind + '"></i>' + esc(v.name) + ' ' + faL(s.v[v.id].liters) + ' لیتر · ' + toman(s.v[v.id].cost) + '</span>';
+    }).join('');
+    var h = '';
+    h += '<h1 class="h1">بنزین این ماه <span class="mark">چقدر شد؟</span></h1>';
+    if (useDemo()) {
+      h += '<div class="banner"><p><b>داده‌ی نمونه</b><br>این عددها نمونه‌اند و با اولین ثبت واقعی خودکار حذف می‌شوند.</p><button type="button" class="chip" data-act="demo-off">حذف نمونه‌ها</button></div>';
+    }
+    h += '<section class="hero" aria-label="خلاصه‌ی هزینه"><div class="wm" aria-hidden="true">بنزین</div>' +
+      seg([['day', 'امروز'], ['month', 'این ماه'], ['year', 'امسال']], per, 'hero') +
+      '<p class="eyebrow">' + label + '</p>' +
+      '<div class="big"><span class="num tn">' + toman(s.cost) + '</span><span class="unit">تومان</span></div>' +
+      '<div class="hero-stats"><div><b class="tn">' + faL(s.liters) + '</b><span>لیتر</span></div><div><b class="tn">' + digits(s.count) + '</b><span>بار سوخت‌گیری</span></div></div>' +
+      '<div class="split">' + split + '</div><div class="legend">' + legend + '</div></section>';
+    S.vehicles.forEach(function (v) { h += quotaCard(v, rows, t); });
+    var ms = L.sum(S, rows.filter(function (r) { return r.jy === t.jy && r.jm === t.jm; }));
+    if (ms.saved > 0) {
+      h += '<section class="yellow-card"><span class="ic">' + ic('coin', 24) + '</span><div><div class="big tn">' + toman(ms.saved) + ' تومان</div><p>صرفه‌جویی این ماه نسبت به نرخ آزاد (' + toman(S.p3) + ' تومان برای هر لیتر)</p></div></section>';
+    }
+    var recent = rows.slice().reverse().slice(0, 4);
+    h += '<section class="card"><div class="row-between" style="margin-bottom:10px"><h2 class="h2">آخرین سوخت‌گیری‌ها</h2><button type="button" class="chip" data-act="tab" data-t="rep">همه</button></div>';
+    if (recent.length) h += '<div class="rows">' + recent.map(function (r) { return fillRow(r, false); }).join('') + '</div>';
+    else h += '<div class="empty"><b>هنوز چیزی ثبت نشده</b>اولین سوخت‌گیری را ثبت کن تا حساب شروع شود.</div>';
+    h += '</section>';
+    return h;
+  }
+
+  /* ---------- ADD ---------- */
+  function freshAdd(vid) {
+    var t = L.todayParts();
+    return { vid: vid || S.vehicles[0].id, jy: t.jy, jm: t.jm, jd: t.jd, liters: 10, station: '', coords: '', lat: null, lng: null };
+  }
+  function realRows() { return L.enrich(S, fills); }
+  function knownStations() { return L.stations(realRows()).filter(function (s) { return s.lat != null; }).slice(0, 6); }
+  var chipStations = [];
+  function dayOptions(a) {
+    var n = L.dim(a.jy, a.jm), o = '';
+    for (var d = 1; d <= n; d++) o += '<option value="' + d + '"' + (d === a.jd ? ' selected' : '') + '>' + digits(d) + '</option>';
+    return o;
+  }
+  function viewAdd() {
+    if (!ui.add) ui.add = freshAdd();
+    var a = ui.add, t = L.todayParts();
+    var vseg = '<div class="seg" role="group" aria-label="وسیله">' + S.vehicles.map(function (v) {
+      return '<button type="button" data-act="add-veh" data-v="' + v.id + '" class="' + (a.vid === v.id ? 'on' : '') + '" aria-pressed="' + (a.vid === v.id) + '">' + vIcon(v) + esc(v.name) + '</button>';
+    }).join('') + '</div>';
+    var mo = '', yo = '';
+    MONTHS.forEach(function (m, i) { mo += '<option value="' + (i + 1) + '"' + (i + 1 === a.jm ? ' selected' : '') + '>' + m + '</option>'; });
+    for (var y = t.jy - 4; y <= t.jy; y++) yo += '<option value="' + y + '"' + (y === a.jy ? ' selected' : '') + '>' + digits(y) + '</option>';
+    chipStations = knownStations();
+    var chips = chipStations.length ? '<div class="chips" aria-label="پمپ‌های قبلی">' + chipStations.map(function (s, i) {
+      return '<button type="button" class="chip" data-act="add-st" data-i="' + i + '">' + esc(s.name) + '</button>';
+    }).join('') + '</div>' : '';
+    var h = '';
+    h += '<h1 class="h1">سوخت‌گیری <span class="mark">جدید</span></h1>';
+    h += vseg;
+    h += '<section class="card stack"><div class="ringrow">' +
+      '<button type="button" class="step" data-act="add-step" data-d="-1" aria-label="یک لیتر کمتر">' + ic('minus', 24) + '</button>' +
+      '<div class="ring"><svg viewBox="0 0 200 200" aria-hidden="true">' +
+      '<circle class="r-track" cx="100" cy="100" r="82" fill="none" stroke-width="16"/>' +
+      '<circle id="ring-used" class="r-used" cx="100" cy="100" r="82" fill="none" stroke-width="16" transform="rotate(-90 100 100)" stroke-dasharray="0 516"/>' +
+      '<circle id="ring-edge" class="r-edge" cx="100" cy="100" r="82" fill="none" stroke-width="19" transform="rotate(-90 100 100)" stroke-dasharray="0 516"/>' +
+      '<circle id="ring-new" class="r-new" cx="100" cy="100" r="82" fill="none" stroke-width="16" transform="rotate(-90 100 100)" stroke-dasharray="0 516"/></svg>' +
+      '<div class="c"><input id="add-liters" class="lit tn" type="text" inputmode="decimal" autocomplete="off" aria-label="مقدار بنزین به لیتر" value="' + esc(faL(a.liters)) + '"><span class="u">لیتر</span></div></div>' +
+      '<button type="button" class="step" data-act="add-step" data-d="1" aria-label="یک لیتر بیشتر">' + ic('plus', 24) + '</button></div>' +
+      '<div class="chips" style="justify-content:center">' + [5, 10, 15, 20, 30].map(function (n) { return '<button type="button" class="chip" data-act="add-chip" data-l="' + n + '">' + digits(n) + ' لیتر</button>'; }).join('') + '</div>' +
+      '<p class="hint" id="add-info" style="text-align:center"></p></section>';
+    h += '<section class="card stack"><div class="lbl">هزینه‌ی این سوخت‌گیری</div><div class="breakdown tn" id="add-cost"></div></section>';
+    h += '<section class="card stack"><div class="field"><span class="lbl">تاریخ (شمسی)</span><div class="grid3">' +
+      '<select class="sel" id="add-day" data-in="add-date" aria-label="روز">' + dayOptions(a) + '</select>' +
+      '<select class="sel" id="add-month" data-in="add-date" aria-label="ماه">' + mo + '</select>' +
+      '<select class="sel" id="add-year" data-in="add-date" aria-label="سال">' + yo + '</select></div></div>' +
+      '<div class="field"><label for="add-station">پمپ بنزین (اختیاری)</label><input id="add-station" class="inp" data-in="add-station" type="text" autocomplete="off" placeholder="مثلاً پمپ نزدیک خانه" value="' + esc(a.station) + '">' + chips + '</div>' +
+      '<div class="field"><label for="add-coords">مختصات یا لینک نقشه (اختیاری)</label><input id="add-coords" class="inp" data-in="add-coords" type="text" dir="ltr" autocomplete="off" placeholder="35.7001, 51.4002" value="' + esc(a.coords) + '"><p class="hint" id="geo-status"></p></div></section>';
+    h += '<button type="button" class="btn" data-act="add-submit"><span>ثبت سوخت‌گیری</span><span class="disc">' + ic('arrow', 22, 2.2) + '</span></button>';
+    return h;
+  }
+  function calcAdd() {
+    var a = ui.add, v = vehById(a.vid), cfg = L.vehCfg(S, v), rows = realRows();
+    var iso = L.isoFromJ(a.jy, a.jm, a.jd);
+    var start = L.usedInMonth(rows, a.vid, a.jy, a.jm, iso);
+    var lit = isFinite(a.liters) && a.liters > 0 ? a.liters : 0;
+    return { v: v, cfg: cfg, start: start, lit: lit, sp: L.tierSplit(start, lit, cfg), iso: iso };
+  }
+  function updateAdd() {
+    var a = ui.add, c = calcAdd(), q = c.cfg.q, C = 2 * Math.PI * 82;
+    var e = Math.min(c.start / q, 1), n = Math.min((c.start + c.lit) / q, 1) - e;
+    if (n < 0) n = 0;
+    function setC(id, len, off) {
+      var el = $(id); if (!el) return;
+      el.setAttribute('stroke-dasharray', (len * C).toFixed(2) + ' ' + C.toFixed(2));
+      el.setAttribute('stroke-dashoffset', (-off * C).toFixed(2));
+    }
+    setC('#ring-used', e, 0); setC('#ring-new', n, e); setC('#ring-edge', n, e);
+    var info = $('#add-info');
+    if (info) {
+      info.textContent = 'تا الان در ' + MONTHS[a.jm - 1] + ': ' + faL(c.start) + ' از ' + faL(q) + ' لیتر سهمیه‌ی ' + c.v.name + ' مصرف شده.' + (c.start + c.lit > q ? ' بخشی از این سوخت‌گیری بیشتر از سهمیه است.' : '');
+    }
+    var box = $('#add-cost');
+    if (box) {
+      if (!c.lit) { box.innerHTML = '<p class="hint">مقدار لیتر را وارد کن تا هزینه حساب شود.</p>'; return; }
+      var cf = c.cfg, sp = c.sp, h = '';
+      if (sp.l1 > 0) h += '<div><span>' + faL(sp.l1) + ' لیتر × ' + toman(cf.p1) + ' (سهمیه)</span><b>' + toman(sp.l1 * cf.p1) + '</b></div>';
+      if (sp.l2 > 0) h += '<div><span>' + faL(sp.l2) + ' لیتر × ' + toman(cf.p2) + ' (نیم‌بها)</span><b>' + toman(sp.l2 * cf.p2) + '</b></div>';
+      if (sp.l3 > 0) h += '<div><span>' + faL(sp.l3) + ' لیتر × ' + toman(cf.p3) + ' (آزاد)</span><b>' + toman(sp.l3 * cf.p3) + '</b></div>';
+      h += '<div class="tot"><span>جمع</span><span>' + toman(sp.cost) + ' تومان</span></div>';
+      box.innerHTML = h;
+    }
+  }
+  function updateGeo() {
+    var a = ui.add, el = $('#geo-status');
+    if (!el) return;
+    if (!a.coords.trim()) { el.className = 'hint'; el.textContent = 'روی نقشه‌ی گوشی روی پمپ نگه دار، مختصات یا لینک اشتراک را کپی کن و اینجا بچسبان.'; }
+    else if (a.lat != null) { el.className = 'hint ok'; el.textContent = 'مختصات خوانده شد: ' + a.lat + ' ، ' + a.lng; }
+    else { el.className = 'hint err'; el.textContent = 'مختصات خوانده نشد. دو عدد اعشاری مثل 35.7001, 51.4002 لازم است.'; }
+  }
+  function syncDateFromSelects() {
+    var a = ui.add;
+    var d = +$('#add-day').value, m = +$('#add-month').value, y = +$('#add-year').value;
+    var n = L.dim(y, m);
+    a.jy = y; a.jm = m; a.jd = Math.min(d, n);
+    $('#add-day').innerHTML = dayOptions(a);
+  }
+  function submitAdd() {
+    var a = ui.add;
+    if (!(a.liters > 0) || a.liters > 300) { toast('مقدار لیتر را درست وارد کن'); return; }
+    if (a.coords.trim() && a.lat == null) { toast('مختصات خوانده نشد؛ اصلاحش کن یا خالی بگذار'); return; }
+    var f = { id: newId(), vid: a.vid, date: L.isoFromJ(a.jy, a.jm, a.jd), liters: Math.round(a.liters * 100) / 100, t: Date.now() };
+    var st = a.station.replace(/\s+/g, ' ').trim();
+    if (st) f.station = st;
+    if (a.lat != null) { f.lat = a.lat; f.lng = a.lng; }
+    fills.push(f);
+    if (!dbReady) pending.push(f);
+    persistFill(f);
+    ui.add = freshAdd(a.vid);
+    toast('ثبت شد');
+    go('home');
+  }
+
+  /* ---------- REPORTS ---------- */
+  function repData() {
+    var t = L.todayParts(), rows = rowsAll(), r = ui.rep, b = [], title, i;
+    if (r.mode === 'day') {
+      var n = L.dim(r.jy, r.jm);
+      for (i = 1; i <= n; i++) b.push({ label: digits(i), name: digits(i) + ' ' + MONTHS[r.jm - 1], show: (i === 1 || i % 5 === 0), cur: (r.jy === t.jy && r.jm === t.jm && i === t.jd), rows: [] });
+      rows.forEach(function (x) { if (x.jy === r.jy && x.jm === r.jm) b[x.jd - 1].rows.push(x); });
+      title = MONTHS[r.jm - 1] + ' ' + digits(r.jy);
+    } else if (r.mode === 'month') {
+      for (i = 1; i <= 12; i++) b.push({ label: MS[i - 1], name: MONTHS[i - 1] + ' ' + digits(r.jy), show: true, cur: (r.jy === t.jy && i === t.jm), rows: [] });
+      rows.forEach(function (x) { if (x.jy === r.jy) b[x.jm - 1].rows.push(x); });
+      title = 'سال ' + digits(r.jy);
+    } else {
+      var minY = t.jy;
+      rows.forEach(function (x) { if (x.jy < minY) minY = x.jy; });
+      var start = Math.max(Math.min(minY, t.jy - 2), t.jy - 5);
+      for (i = start; i <= t.jy; i++) b.push({ y: i, label: digits(i), name: 'سال ' + digits(i), show: true, cur: i === t.jy, rows: [] });
+      rows.forEach(function (x) { b.forEach(function (bk) { if (bk.y === x.jy) bk.rows.push(x); }); });
+      title = 'سال‌های اخیر';
+    }
+    b.forEach(function (bk) { bk.s = L.sum(S, bk.rows); });
+    return { b: b, title: title };
+  }
+  function chartSvg(buckets, metric, selIdx) {
+    var W = 340, H = 176, top = 12, bot = 24, left = 6, right = 288, aw = right - left, ah = H - top - bot;
+    var vals = buckets.map(function (b) { return S.vehicles.map(function (v) { return metric === 'cost' ? b.s.v[v.id].cost : b.s.v[v.id].liters; }); });
+    var totals = vals.map(function (a) { return a.reduce(function (x, y) { return x + y; }, 0); });
+    var max = L.niceMax(Math.max.apply(null, totals.concat([0])));
+    var out = '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="نمودار ' + (metric === 'cost' ? 'هزینه' : 'مصرف') + '">';
+    [0, 0.5, 1].forEach(function (f) {
+      var y = top + ah - ah * f;
+      out += '<line class="grid" x1="' + left + '" x2="' + right + '" y1="' + y + '" y2="' + y + '"/>';
+      var txt = f === 0 ? '۰' : (metric === 'cost' ? L.compact(max * f) : faL(max * f));
+      out += '<text x="' + (right + 6) + '" y="' + (y + 3) + '" text-anchor="start">' + txt + '</text>';
+    });
+    var bw = aw / buckets.length;
+    buckets.forEach(function (b, i) {
+      var x = right - (i + 1) * bw, w = Math.min(bw * 0.66, 26), bx = x + (bw - w) / 2, y = top + ah;
+      if (selIdx === i) out += '<rect class="sel-bg" x="' + x + '" y="' + top + '" width="' + bw + '" height="' + ah + '" rx="4"/>';
+      S.vehicles.forEach(function (v, k) {
+        var val = vals[i][k];
+        if (val > 0) {
+          var h = Math.max(val / max * ah, 2);
+          y -= h;
+          out += '<rect class="b-' + v.kind + '" x="' + bx.toFixed(2) + '" y="' + y.toFixed(2) + '" width="' + w.toFixed(2) + '" height="' + h.toFixed(2) + '" rx="3"/>';
+        }
+      });
+      if (b.show) out += '<text class="' + (b.cur ? 'cur' : '') + '" x="' + (x + bw / 2).toFixed(2) + '" y="' + (H - 8) + '" text-anchor="middle">' + b.label + '</text>';
+      out += '<rect class="hit" data-act="bar" data-i="' + i + '" x="' + x.toFixed(2) + '" y="0" width="' + bw.toFixed(2) + '" height="' + (H - 4) + '"><title>' + esc(b.name) + '</title></rect>';
+    });
+    return out + '</svg>';
+  }
+  function viewRep() {
+    var r = ui.rep, t = L.todayParts(), d = repData(), b = d.b;
+    var selB = r.sel >= 0 && r.sel < b.length ? b[r.sel] : null;
+    var periodRows = [];
+    b.forEach(function (bk) { if (!selB || bk === selB) periodRows = periodRows.concat(bk.rows); });
+    var ps = L.sum(S, periodRows);
+    var canNext = r.mode === 'day' ? !(r.jy === t.jy && r.jm === t.jm) : r.mode === 'month' ? r.jy < t.jy : false;
+    var canPrev = r.mode !== 'year';
+    var h = '<h1 class="h1">گزارش <span class="mark">مصرف</span></h1>';
+    h += seg([['day', 'روزانه'], ['month', 'ماهانه'], ['year', 'سالانه']], r.mode, 'rep-mode');
+    h += '<section class="card stack">';
+    h += '<div class="row-between"><button type="button" class="icon-btn" data-act="rep-nav" data-d="-1" aria-label="قبلی"' + (canPrev ? '' : ' disabled style="opacity:.35"') + '>' + ic('chevr', 22) + '</button>' +
+      '<b>' + d.title + '</b><button type="button" class="icon-btn" data-act="rep-nav" data-d="1" aria-label="بعدی"' + (canNext ? '' : ' disabled style="opacity:.35"') + '>' + ic('chev', 22) + '</button></div>';
+    h += seg([['cost', 'هزینه (تومان)'], ['liters', 'مصرف (لیتر)']], r.metric, 'rep-metric');
+    var cap;
+    if (selB) {
+      cap = '<b>' + esc(selB.name) + '</b> · ' + S.vehicles.map(function (v) { return esc(v.name) + ' ' + faL(selB.s.v[v.id].liters) + ' لیتر'; }).join('، ') + ' · ' + toman(selB.s.cost) + ' تومان';
+    } else cap = 'روی یک ستون بزن تا جزئیاتش را ببینی.';
+    h += '<p class="hint tn" style="min-height:44px">' + cap + '</p>';
+    h += chartSvg(b, r.metric, r.sel);
+    h += '<div class="legend small">' + S.vehicles.map(function (v) { return '<span><i class="dot ' + v.kind + '"></i>' + esc(v.name) + '</span>'; }).join('') + '</div></section>';
+    var avg = ps.liters > 0 ? ps.cost / ps.liters : 0;
+    h += '<div class="stats tn"><div class="stat"><span>مجموع هزینه</span><b>' + toman(ps.cost) + '</b><span>تومان</span></div>' +
+      '<div class="stat"><span>مجموع مصرف</span><b>' + faL(ps.liters) + '</b><span>لیتر</span></div>' +
+      '<div class="stat"><span>میانگین هر لیتر</span><b>' + toman(avg) + '</b><span>تومان</span></div>' +
+      '<div class="stat"><span>صرفه‌جویی کارت سوخت</span><b>' + toman(Math.max(ps.saved, 0)) + '</b><span>تومان نسبت به نرخ آزاد</span></div></div>';
+    var list = periodRows.slice().sort(function (x, y) { return x.date < y.date ? 1 : x.date > y.date ? -1 : (y.t || 0) - (x.t || 0); });
+    h += '<section class="card"><div class="row-between" style="margin-bottom:10px"><h2 class="h2">سابقه‌ی ثبت‌ها</h2><span class="small muted tn">' + digits(list.length) + ' مورد</span></div>';
+    if (list.length) {
+      h += '<div class="rows">' + list.slice(0, 60).map(function (x) { return fillRow(x, true); }).join('') + '</div>';
+      if (list.length > 60) h += '<p class="hint" style="margin-top:8px">۶۰ مورد آخر نشان داده شد.</p>';
+    } else h += '<div class="empty"><b>در این بازه سوختی ثبت نشده</b>با دکمه‌ی پمپ در پایین صفحه ثبت کن.</div>';
+    return h + '</section>';
+  }
+
+  /* ---------- MAP ---------- */
+  function osmLink(s) {
+    return 'https://www.openstreetmap.org/?mlat=' + s.lat + '&mlon=' + s.lng + '#map=16/' + s.lat + '/' + s.lng;
+  }
+  function viewMap() {
+    var rows = rowsAll(), st = L.stations(rows), pts = st.filter(function (s) { return s.lat != null; });
+    var h = '<h1 class="h1">پمپ‌بنزین‌های <span class="mark">پرمراجعه</span></h1>';
+    if (!st.length) {
+      return h + '<section class="card"><div class="empty"><b>هنوز پمپی ثبت نشده</b>هنگام ثبت سوخت‌گیری نام پمپ و مختصاتش را وارد کن تا اینجا ببینی بیشتر به کدام می‌روی.</div></section>';
+    }
+    var maxV = st[0].visits, top = st[0];
+    h += '<section class="yellow-card"><span class="ic">' + ic('pin', 24) + '</span><div><div class="big">' + esc(top.name) + '</div><p class="tn">' + digits(top.visits) + ' بار مراجعه · ' + faL(top.liters) + ' لیتر · ' + toman(top.cost) + ' تومان</p></div></section>';
+    if (pts.length) {
+      var W = 340, H = 280, P = L.project(pts, W, H, 44);
+      var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="موقعیت پمپ‌بنزین‌ها">';
+      for (var gx = 0; gx <= W; gx += 42.5) svg += '<line class="m-grid" x1="' + gx + '" x2="' + gx + '" y1="0" y2="' + H + '"/>';
+      for (var gy = 0; gy <= H; gy += 40) svg += '<line class="m-grid" x1="0" x2="' + W + '" y1="' + gy + '" y2="' + gy + '"/>';
+      var km = 0.1, opts = [0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100];
+      opts.forEach(function (o) { if (o * P.pxPerKm <= 100) km = o; });
+      var kpx = km * P.pxPerKm;
+      svg += '<path d="M14 ' + (H - 16) + 'h' + kpx.toFixed(1) + 'M14 ' + (H - 20) + 'v8M' + (14 + kpx).toFixed(1) + ' ' + (H - 20) + 'v8" stroke="currentColor" stroke-width="1.5" fill="none" style="color:var(--muted)"/>';
+      svg += '<text class="m-small" x="14" y="' + (H - 24) + '" text-anchor="start">' + digits(km).replace('.', '٫') + ' کیلومتر</text>';
+      svg += '<path d="M322 30v-14M317 21l5-5 5 5" stroke="currentColor" stroke-width="1.5" fill="none" style="color:var(--muted)" stroke-linecap="round"/><text class="m-small" x="322" y="43" text-anchor="middle">شمال</text>';
+      st.forEach(function (s, i) {
+        if (s.lat == null) return;
+        var p = P.xy(s), r = 8 + 13 * Math.pow(s.visits / maxV, 0.6), isTop = i === 0;
+        if (ui.mapSel === i) svg += '<circle class="m-sel" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + (r + 6).toFixed(1) + '"/>';
+        svg += '<circle class="' + (isTop ? 'm-top' : 'm-dot') + '" data-act="map-sel" data-i="' + i + '" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + r.toFixed(1) + '"><title>' + esc(s.name) + '</title></circle>';
+        svg += '<text x="' + p.x.toFixed(1) + '" y="' + (p.y + 3.5).toFixed(1) + '" text-anchor="middle" pointer-events="none" style="font-size:10px;font-weight:800;fill:' + (isTop ? '#0b0b0c' : 'var(--card2)') + '">' + digits(s.visits) + '</text>';
+        var nm = s.name.length > 16 ? s.name.slice(0, 15) + '…' : s.name;
+        svg += '<text class="m-lbl" x="' + p.x.toFixed(1) + '" y="' + (p.y - r - 5).toFixed(1) + '" text-anchor="middle" pointer-events="none">' + esc(nm) + '</text>';
+      });
+      svg += '</svg>';
+      h += '<div class="mapbox">' + svg + '</div><p class="hint">نمودار موقعیت پمپ‌ها بدون نقشه‌ی خیابان. اندازه‌ی هر نقطه به تعداد مراجعه بستگی دارد. برای دیدن روی نقشه‌ی واقعی، «باز کردن در نقشه» را بزن.</p>';
+    } else {
+      h += '<section class="card"><div class="empty"><b>مختصات پمپی ثبت نشده</b>در برگه‌ی ثبت، مختصات یا لینک نقشه‌ی پمپ را هم بچسبان تا موقعیتش اینجا نشان داده شود.</div></section>';
+    }
+    var sel = ui.mapSel >= 0 && st[ui.mapSel] ? st[ui.mapSel] : null;
+    if (sel) {
+      h += '<section class="card2"><div class="row-between"><b>' + esc(sel.name) + '</b>' + (sel.lat != null ? '<a class="extlink" href="' + osmLink(sel) + '" target="_blank" rel="noopener">باز کردن در نقشه ' + ic('ext', 14) + '</a>' : '') + '</div><p class="hint tn">' + digits(sel.visits) + ' بار · ' + faL(sel.liters) + ' لیتر · ' + toman(sel.cost) + ' تومان · آخرین بار ' + L.fmtDay(sel.last, true) + '</p></section>';
+    }
+    h += '<section class="card"><h2 class="h2" style="margin-bottom:10px">رتبه‌بندی</h2><div class="rows">' + st.map(function (s, i) {
+      var link = s.lat != null ? '<a class="extlink" href="' + osmLink(s) + '" target="_blank" rel="noopener">نقشه ' + ic('ext', 14) + '</a>' : '<span class="small muted">بدون مختصات</span>';
+      return '<div class="row"><span class="rank' + (i === 0 ? ' first' : '') + ' tn">' + digits(i + 1) + '</span><div class="rt"><b>' + esc(s.name) + '</b><div class="meter"><i style="width:' + (s.visits / maxV * 100).toFixed(0) + '%"></i></div></div><div class="rv tn">' + digits(s.visits) + ' بار<small>' + faL(s.liters) + ' لیتر</small></div>' + link + '</div>';
+    }).join('') + '</div></section>';
+    return h;
+  }
+
+  /* ---------- SETTINGS ---------- */
+  function backupText() { return JSON.stringify({ app: 'fuel', v: 1, settings: S, fills: fills }); }
+  function viewSet() {
+    var th = getTheme();
+    var h = '<h1 class="h1">تنظیمات <span class="mark">کارت سوخت</span></h1>';
+    h += '<section class="card stack"><h2 class="h2">ظاهر</h2>' + seg([['auto', 'خودکار'], ['light', 'روشن'], ['dark', 'تاریک']], th, 'set-theme') + '</section>';
+    S.vehicles.forEach(function (v) {
+      h += '<section class="card stack"><div class="vname"><span class="vicon">' + vIcon(v) + '</span>کارت سوخت ' + esc(v.name) + '</div>' +
+        '<div class="field"><label for="vn-' + v.id + '">نام</label><input id="vn-' + v.id + '" class="inp" type="text" data-set="vname" data-id="' + v.id + '" value="' + esc(v.name) + '"></div>' +
+        '<div class="grid2"><div class="field"><label for="vq-' + v.id + '">سهمیه‌ی ماهانه (لیتر)</label><input id="vq-' + v.id + '" class="inp tn" type="text" inputmode="decimal" data-set="vquota" data-id="' + v.id + '" value="' + faL(v.quota) + '"></div>' +
+        '<div class="field"><label for="vp-' + v.id + '">قیمت سهمیه (تومان)</label><input id="vp-' + v.id + '" class="inp tn" type="text" inputmode="numeric" data-set="vp1" data-id="' + v.id + '" value="' + toman(v.p1) + '"></div></div></section>';
+    });
+    h += '<section class="card stack"><h2 class="h2">بعد از سهمیه</h2><p class="hint">این نرخ‌ها برای هر کارت و در هر ماه شمسی حساب می‌شوند.</p>' +
+      '<div class="grid2"><div class="field"><label for="t2">حجم نیم‌بها (لیتر)</label><input id="t2" class="inp tn" type="text" inputmode="decimal" data-set="t2" value="' + faL(S.t2) + '"></div>' +
+      '<div class="field"><label for="p2">قیمت نیم‌بها (تومان)</label><input id="p2" class="inp tn" type="text" inputmode="numeric" data-set="p2" value="' + toman(S.p2) + '"></div></div>' +
+      '<div class="field"><label for="p3">قیمت آزاد (تومان)</label><input id="p3" class="inp tn" type="text" inputmode="numeric" data-set="p3" value="' + toman(S.p3) + '"></div></section>';
+    h += '<section class="card stack"><h2 class="h2">پشتیبان‌گیری</h2><p class="hint">' + (mode === 'cloud'
+      ? 'ذخیره‌سازی ابری فعال است و روی هر دستگاهی که این صفحه را با حساب خودت باز کنی همین اطلاعات را می‌بینی.'
+      : 'اطلاعات فقط در همین مرورگر ذخیره می‌شود و با پاک شدن اطلاعات مرورگر از بین می‌رود. از متن پشتیبان زیر نسخه نگه دار.') + '</p>' +
+      '<textarea id="backup" class="inp" readonly aria-label="متن پشتیبان">' + esc(backupText()) + '</textarea>' +
+      '<button type="button" class="btn-dark" data-act="copy">' + ic('copy', 18) + ' کپی پشتیبان</button>' +
+      '<div class="field"><label for="restore">بازیابی از متن پشتیبان</label><textarea id="restore" class="inp" placeholder="متن پشتیبان را اینجا بچسبان"></textarea></div>' +
+      '<button type="button" class="btn-ghost" data-act="restore">بازیابی</button></section>';
+    return h;
+  }
+
+  /* ---------- render & navigation ---------- */
+  var TABS = [['home', 'خانه', 'home'], ['rep', 'گزارش', 'chart'], ['add', 'ثبت سوخت‌گیری', 'pump'], ['map', 'نقشه', 'pin'], ['set', 'تنظیمات', 'sliders']];
+  var VIEWS = { home: viewHome, add: viewAdd, rep: viewRep, map: viewMap, set: viewSet };
+  function render() {
+    $('#view').innerHTML = VIEWS[ui.tab]();
+    var navEl = $('#nav');
+    navEl.innerHTML = TABS.map(function (x) {
+      return '<button type="button" data-act="tab" data-t="' + x[0] + '" class="' + (ui.tab === x[0] ? 'on' : '') + '" aria-label="' + x[1] + '" title="' + x[1] + '"' + (ui.tab === x[0] ? ' aria-current="page"' : '') + '>' + ic(x[2], 24) + '</button>';
+    }).join('');
+    $('#themeBtn').innerHTML = ic(effectiveTheme() === 'dark' ? 'sun' : 'moon', 22);
+    if (ui.tab === 'add') { updateAdd(); updateGeo(); }
+  }
+  function go(tab) {
+    ui.tab = tab; ui.confirm = null;
+    render();
+    window.scrollTo(0, 0);
+  }
+
+  var ACT = {
+    tab: function (el) { go(el.getAttribute('data-t')); },
+    theme: function () { setTheme(effectiveTheme() === 'dark' ? 'light' : 'dark'); render(); },
+    'set-theme': function (el) { setTheme(el.getAttribute('data-v')); render(); },
+    hero: function (el) { ui.hero = el.getAttribute('data-v'); render(); },
+    'demo-off': function () { S.demoOff = true; persistSettings(); render(); toast('نمونه‌ها حذف شدند'); },
+    'rep-mode': function (el) { ui.rep.mode = el.getAttribute('data-v'); ui.rep.sel = -1; render(); },
+    'rep-metric': function (el) { ui.rep.metric = el.getAttribute('data-v'); render(); },
+    'rep-nav': function (el) {
+      var d = +el.getAttribute('data-d'), r = ui.rep;
+      if (el.disabled) return;
+      if (r.mode === 'day') { r.jm += d; if (r.jm < 1) { r.jm = 12; r.jy--; } if (r.jm > 12) { r.jm = 1; r.jy++; } }
+      else if (r.mode === 'month') r.jy += d;
+      r.sel = -1; render();
+    },
+    bar: function (el) { var i = +el.getAttribute('data-i'); ui.rep.sel = ui.rep.sel === i ? -1 : i; render(); },
+    'del-ask': function (el) { ui.confirm = el.getAttribute('data-id'); render(); },
+    'del-no': function () { ui.confirm = null; render(); },
+    'del-yes': function (el) {
+      var id = el.getAttribute('data-id');
+      fills = fills.filter(function (f) { return f.id !== id; });
+      ui.confirm = null;
+      persistDelete(id);
+      render();
+      toast('حذف شد');
+    },
+    'add-veh': function (el) { ui.add.vid = el.getAttribute('data-v'); render(); },
+    'add-step': function (el) {
+      var a = ui.add, d = +el.getAttribute('data-d');
+      a.liters = Math.max(0, (isFinite(a.liters) ? a.liters : 0) + d);
+      $('#add-liters').value = faL(a.liters);
+      updateAdd();
+    },
+    'add-chip': function (el) { ui.add.liters = +el.getAttribute('data-l'); $('#add-liters').value = faL(ui.add.liters); updateAdd(); },
+    'add-st': function (el) {
+      var s = chipStations[+el.getAttribute('data-i')], a = ui.add;
+      if (!s) return;
+      a.station = s.name; a.lat = s.lat; a.lng = s.lng; a.coords = s.lat + ', ' + s.lng;
+      $('#add-station').value = a.station; $('#add-coords').value = a.coords;
+      updateGeo();
+    },
+    'add-submit': submitAdd,
+    'map-sel': function (el) { var i = +el.getAttribute('data-i'); ui.mapSel = ui.mapSel === i ? -1 : i; render(); },
+    copy: function () {
+      var txt = backupText();
+      function fb() { var ta = $('#backup'); ta.focus(); ta.select(); toast('متن انتخاب شد؛ دستی کپی کن'); }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function () { toast('کپی شد'); }, fb);
+        else fb();
+      } catch (e) { fb(); }
+    },
+    restore: function () {
+      var raw = $('#restore').value.trim(), o;
+      try { o = JSON.parse(raw); } catch (e) { toast('متن پشتیبان درست نیست'); return; }
+      if (!o || !Array.isArray(o.fills)) { toast('متن پشتیبان درست نیست'); return; }
+      var ids = {}, n = 0;
+      fills.forEach(function (f) { ids[f.id] = 1; });
+      o.fills.forEach(function (f) {
+        if (!f || typeof f.date !== 'string' || !(f.liters > 0) || typeof f.vid !== 'string') return;
+        var c = { id: typeof f.id === 'string' && /^[A-Za-z0-9_-]+$/.test(f.id) ? f.id : newId(), vid: f.vid, date: f.date, liters: +f.liters, t: +f.t || Date.now() };
+        if (typeof f.station === 'string' && f.station) c.station = f.station;
+        if (typeof f.lat === 'number' && typeof f.lng === 'number') { c.lat = f.lat; c.lng = f.lng; }
+        if (ids[c.id]) return;
+        ids[c.id] = 1; fills.push(c); persistFill(c); n++;
+      });
+      if (o.settings) { S = mergeSettings(o.settings); persistSettings(); }
+      render();
+      toast('بازیابی شد: ' + digits(n) + ' ثبت');
+    }
+  };
+
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest ? e.target.closest('[data-act]') : null;
+    if (!el) return;
+    var fn = ACT[el.getAttribute('data-act')];
+    if (fn) fn(el, e);
+  });
+  document.addEventListener('input', function (e) {
+    var el = e.target, k = el.id;
+    if (!ui.add || ui.tab !== 'add') return;
+    if (k === 'add-liters') { ui.add.liters = L.parseNum(el.value); updateAdd(); }
+    else if (k === 'add-station') ui.add.station = el.value;
+    else if (k === 'add-coords') {
+      var a = ui.add, p = L.parseCoords(el.value);
+      a.coords = el.value; a.lat = p ? p.lat : null; a.lng = p ? p.lng : null;
+      updateGeo();
+    }
+  });
+  document.addEventListener('change', function (e) {
+    var el = e.target;
+    if (el.getAttribute && el.getAttribute('data-in') === 'add-date') { syncDateFromSelects(); updateAdd(); return; }
+    if (el.id === 'add-liters' && ui.add) { if (isFinite(ui.add.liters) && ui.add.liters >= 0) el.value = faL(ui.add.liters); return; }
+    var key = el.getAttribute && el.getAttribute('data-set');
+    if (!key) return;
+    var id = el.getAttribute('data-id'), v = id ? vehById(id) : null, n;
+    if (key === 'vname') { var nm = el.value.trim(); if (nm) v.name = nm; el.value = v.name; }
+    else if (key === 'vquota') { n = L.parseNum(el.value); if (n > 0) v.quota = n; el.value = faL(v.quota); }
+    else if (key === 'vp1') { n = L.parsePrice(el.value); if (n >= 0) v.p1 = n; el.value = toman(v.p1); }
+    else if (key === 't2') { n = L.parseNum(el.value); if (n >= 0) S.t2 = n; el.value = faL(S.t2); }
+    else if (key === 'p2') { n = L.parsePrice(el.value); if (n >= 0) S.p2 = n; el.value = toman(S.p2); }
+    else if (key === 'p3') { n = L.parsePrice(el.value); if (n >= 0) S.p3 = n; el.value = toman(S.p3); }
+    persistSettings();
+    toast('ذخیره شد');
+  });
+
+  /* ---------- boot ---------- */
+  applyTheme(getTheme());
+  var loc = loadLocal();
+  if (loc) { S = mergeSettings(loc.settings); fills = loc.fills; }
+  render();
+  initDb();
+})();
+
+</script>
+<script>
+// Register the offline cache when served from HTTPS or localhost.
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")) {
+  window.addEventListener("load", function () { navigator.serviceWorker.register("./sw.js").catch(function (err) { console.warn("Service worker registration failed", err); }); });
+}
+</script>
+</body></html>
